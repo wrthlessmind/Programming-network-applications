@@ -8,13 +8,21 @@ class AttendanceTrackSystem {
     private final int arrSize;
 
     private String DateInput(Scanner scanner) {
-        System.out.println("Enter day(1-31): ");
-        int day = Integer.parseInt(scanner.nextLine());
-        System.out.println("Enter month(1-12): ");
-        int month = Integer.parseInt(scanner.nextLine());
-        System.out.println("Enter year: ");
-        int year = Integer.parseInt(scanner.nextLine());
-        return day + "." + month + "." + year;
+        try {
+            System.out.println("Enter day(1-31): ");
+            int day = Integer.parseInt(scanner.nextLine());
+            if (day < 1 || day > 31) throw new IllegalArgumentException("Day must be between 1 and 31.");
+            System.out.println("Enter month(1-12): ");
+            int month = Integer.parseInt(scanner.nextLine());
+            if (month < 1 || month > 12) throw new IllegalArgumentException("Month must be between 1 and 12.");
+            System.out.println("Enter year: ");
+            int year = Integer.parseInt(scanner.nextLine());
+            if (year <= 0) throw new IllegalArgumentException("Year must be > 0.");
+            return day + "." + month + "." + year;
+        } catch (Exception e) {
+            logger.error("Exception: " + e);
+            return null;
+        }
     }
 
     public AttendanceTrackSystem(int size) {
@@ -39,10 +47,14 @@ class AttendanceTrackSystem {
                 found = true;
                 do {
                     String date = DateInput(scanner);
-                    students[i].addDate(date);
-                    logger.info("Record added: student '{}', date '{}'.", name, date);
+                    if (date != null) {
+                        students[i].addDate(date);
+                        logger.info("Record added: student '{}', date '{}'.", name, date);
+                    } else {
+                        logger.warn("Record NOT added: invalid input.");
+                    }
                     System.out.println("continue? (yes - 1, no - 0)");
-                } while (Integer.parseInt(scanner.nextLine()) != 0);
+                } while (!scanner.nextLine().equals("0"));
                 break;
             }
         }
@@ -57,10 +69,14 @@ class AttendanceTrackSystem {
             if (students[i].getName().equalsIgnoreCase(name)) {
                 found = true;
                 String date = DateInput(scanner);
-                if (students[i].hasDate(date)) {
-                    logger.info("Student '{}' was present on {}.", students[i].getName(), date);
+                if (date != null) {
+                    if (students[i].hasDate(date)) {
+                        logger.info("Student '{}' was present on {}.", students[i].getName(), date);
+                    } else {
+                        logger.warn("Student '{}' was absent on {}.", students[i].getName(), date);
+                    }
                 } else {
-                    logger.warn("Student '{}' was absent on {}.", students[i].getName(), date);
+                    logger.warn("Record NOT added: invalid input.");
                 }
                 break;
             }
