@@ -2,8 +2,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.Scanner;
 
-class AttendanceTrackSystem
-{
+class AttendanceTrackSystem {
     private final static Logger logger = LogManager.getLogger(AttendanceTrackSystem.class);
     private final Student[] students;
     private final int arrSize;
