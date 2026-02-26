@@ -7,6 +7,11 @@ class AttendanceTrackSystem {
     private final Student[] students;
     private final int arrSize;
 
+    public AttendanceTrackSystem(int size) {
+        arrSize = size;
+        students = new Student[size];
+    }
+
     private String DateInput(Scanner scanner) {
         try {
             System.out.println("Enter day(1-31): ");
@@ -23,11 +28,6 @@ class AttendanceTrackSystem {
             logger.error("Exception: " + e);
             return null;
         }
-    }
-
-    public AttendanceTrackSystem(int size) {
-        arrSize = size;
-        students = new Student[size];
     }
 
     public void Fill() {
@@ -49,7 +49,7 @@ class AttendanceTrackSystem {
                     String date = DateInput(scanner);
                     if (date != null) {
                         students[i].addDate(date);
-                        logger.info("Record added: student '{}', date '{}'.", name, date);
+                        logger.info("Record added: student '{}', date '{}'.", students[i].getName(), date);
                     } else {
                         logger.warn("Record NOT added: invalid input.");
                     }
@@ -73,7 +73,7 @@ class AttendanceTrackSystem {
                     if (students[i].hasDate(date)) {
                         logger.info("Student '{}' was present on {}.", students[i].getName(), date);
                     } else {
-                        logger.warn("Student '{}' was absent on {}.", students[i].getName(), date);
+                        logger.info("Student '{}' was absent on {}.", students[i].getName(), date);
                     }
                 } else {
                     logger.warn("Record NOT added: invalid input.");

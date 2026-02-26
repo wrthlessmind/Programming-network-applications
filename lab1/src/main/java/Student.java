@@ -8,8 +8,8 @@ public class Student {
 
     public Student(String name) {
         this.name = name;
-        visits = new TreeSet<>(Comparator.comparing(d -> {
-            String[] a = d.split("\\.");
+        visits = new TreeSet<>(Comparator.comparing(date -> {
+            String[] a = date.split("\\.");
             return a[2] + a[1] + a[0];
         }));
     }
