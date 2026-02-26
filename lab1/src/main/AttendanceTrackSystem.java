@@ -18,7 +18,7 @@ class AttendanceTrackSystem {
             System.out.println("Enter year: ");
             int year = Integer.parseInt(scanner.nextLine());
             if (year <= 0) throw new IllegalArgumentException("Year must be > 0.");
-            return day + "." + month + "." + year;
+            return String.format("%02d.%02d.%d", day, month, year);
         } catch (Exception e) {
             logger.error("Exception: " + e);
             return null;

@@ -1,12 +1,17 @@
+import java.util.Set;
 import java.util.TreeSet;
+import java.util.Comparator;
 
 public class Student {
     private final String name;
-    private final TreeSet<String> visits;
+    private final Set<String> visits;
 
     public Student(String name) {
         this.name = name;
-        visits = new TreeSet<>();
+        visits = new TreeSet<>(Comparator.comparing(d -> {
+            String[] a = d.split("\\.");
+            return a[2] + a[1] + a[0];
+        }));
     }
 
     public String getName() { return name; }
